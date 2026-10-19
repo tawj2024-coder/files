@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedHub</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400..800&family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     ROOT VARIABLES
+     ========================================================= */
+  :root {
+    --primary--color: hsla(183, 50%, 65%, 0.301);
+    --secondary-color: #f97316;
+    --text--color: #0f213c;
+    --bg--color: #fafdff;
+    --gredient-color: linear-gradient(120deg, #020c1b 0%, #0b2545 50%, #13315c 100%);
+  }
+
+  /* =========================================================
+     GLOBAL / BASE + SMOOTH SCROLL
+     ========================================================= */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    scroll-behavior: smooth;
+    margin: 0;
+    background-color: #f4f2f1;
+  }
+
+  #hero {
+    scroll-margin-top: 100px;
+  }
+
+  #courses {
+    scroll-margin-top: 40px;
+  }
+
+  #store {
+    scroll-margin-top: 40px;
+  }
+
+  /* =========================================================
+     RESET
+     ========================================================= */
+  button {
+    all: unset;
+    box-sizing: border-box;
+  }
+
+  /* =========================================================
+     NAVBAR
+     ========================================================= */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 24px;
+    height: 3.5rem;
+    background-color: #000;
+    border-radius: 0 0 10px 10px;
+    border-bottom: 2px solid var(--text--color);
+    font-family: 'SN Pro', sans-serif;
+  }
+
+  /* --- Logo --- */
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  .logo h1 {
+    margin: 0;
+    padding: 5px;
+    color: var(--text--color);
+  }
+
+  /* --- Nav Links --- */
+  .nav-links {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    font-size: 18px;
+    min-width: 0;
+  }
+
+  .nav-links img {
+    color: #f97316;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--bg--color);
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: 1px solid transparent; /* reserve space, start transparent */
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    border-color: #0FFFFF;
+    background-color: var(--primary--color);
+  }
+
+  /* --- Login / Buttons --- */
+  .auth-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex: 0 0 auto;
+    margin-right: 50px;
+  }
+
+  .btn-primary {
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 10px;
+    border: unset;
+    border-radius: 15px;
+    color: var(--secondary-color);
+    z-index: 1;
+    background: #000;
+    position: relative;
+    font-weight: 800;
+    font-size: 16px;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    overflow: hidden;
+    transition: transform 0.1s ease;
+    cursor: pointer;
+  }
+
+  .btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-radius: 15px;
+    background-color: var(--secondary-color);
+    z-index: -1;
+    -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+    transition: all 250ms;
+  }
+
+  .btn-primary:hover {
+    color: #030303;
+  }
+
+  .btn-primary:hover::before {
+    width: 100%;
+  }
+
+  .btn-primary:active {
+    transform: scale(0.95);
+  }
+
+  /* --- Animated "Sign up" Button --- */
+  .btn-secondary {
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 14px;
+    padding: 8px 10px;
+    color: var(--secondary-color);
+    border-radius: 15px;
+    border: var(--secondary-color) solid 2px;
+  }
+
+  .btn-secondary:hover {
+    color: var(--bg--color);
+  }
+
+  .btn-secondary:active {
+    transform: scale(0.95);
+  }
+
+  /* --- Hamburger (hidden on desktop, shown on mobile below) --- */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 32px;
+    height: 28px;
+    cursor: pointer;
+    z-index: 20;
+    flex: 0 0 auto;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    border-radius: 2px;
+    background-color: var(--bg--color);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* =========================================================
+     MAIN / HERO SECTION
+     ========================================================= */
+  main {
+    min-height: 100vh;
+  }
+
+  .hero-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    gap: 2rem;
+    padding: 6rem 2rem 2rem;
+    box-sizing: border-box;
+    background: linear-gradient(120deg, #020c1b 0%, #0b2545 50%, #13315c 100%);
+  }
+
+  .hero-visual {
+    background-color: #000;
+    color: #0065ac;
+    margin-top: 0;
+    width: 40%;
+    min-width: 260px;
+    border-radius: 16px;
+  }
+
+  .hero-visual img {
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+  }
+
+  .hero-content h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: var(--bg--color);
+    font-weight: 700;
+    line-height: 1.5;
+    font-size: clamp(3rem, 7vw, 4.2rem);
+    font-family: "Special Gothic Expanded One", sans-serif;
+  }
+
+  .accentDot {
+    color: #f97316;
+  }
+
+  .accentT {
+    color: #f97316;
+    font-style: italic;
+  }
+
+  .hero-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 50px;
+    padding: 0 0 45px 0;
+  }
+
+  .hero-copy {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'SN Pro', sans-serif;
+    font-size: 18px;
+    color: var(--bg--color);
+  }
+
+  .divider {
+    display: inline-block;
+    width: 1px;
+    height: 60px;
+    background-color: var(--secondary-color);
+  }
+
+  /* --- "Get Started" CSS Button --- */
+  .hero-cta {
+    background-color: var(--bg--color);
+    color: var(--text--color);
+    padding: 0.35em;
+    padding-left: 1em;
+    padding-right: 3em;
+    font-size: 15px;
+    font-family: "Special Gothic Expanded One", sans-serif;
+    font-weight: 500;
+    border-radius: 0.9em;
+    border: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0 0 1.6em -0.6em #0b0a0d;
+    overflow: hidden;
+    position: relative;
+    height: 2.8em;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    width: 140px;
+  }
+
+  .icon {
+    color: var(--text--color);
+  }
+
+  .hero-cta .icon {
+    background: var(--secondary-color);
+    margin-left: 1em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.2em;
+    width: 2.2em;
+    border-radius: 0.7em;
+    box-shadow: 0.1em 0.1em 0.6em 0.9em var(--secondary-color);
+    right: 0.3em;
+    transition: all 0.3s;
+  }
+
+  .hero-cta:hover .icon {
+    width: calc(100% - 0.6em);
+  }
+
+  .hero-cta .icon svg {
+    width: 1.1em;
+    color: #05010b;
+    transition: transform 0.3s;
+  }
+
+  .hero-cta:hover .icon svg {
+    transform: translateX(0.1em);
+  }
+
+  .hero-cta:active .icon {
+    transform: scale(0.95);
+  }
+
+  /* =========================================================
+     LOGO CAROUSEL
+     ========================================================= */
+  .logo-carousel {
+    padding: 10px 0 25px 0;
+    text-align: center;
+    overflow: hidden;
+    background-color: var(--primary--color);
+  }
+
+  .logo-carousel-label {
+    font-size: 14px;
+    color: #9db4cc;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 40px;
+  }
+
+  .logo-track-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .logo-track {
+    display: flex;
+    align-items: center;
+    gap: 150px;
+    width: max-content;
+    animation: scrollLogos 45s linear infinite;
+    will-change: transform;
+  }
+
+  .logo-item {
+    height: auto;
+    width: 100px;
+    object-fit: contain;
+    opacity: 0.75;
+    filter: opacity(70%) brightness(1);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  @keyframes scrollLogos {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-50% - 35px));
+    }
+  }
+
+  /* =========================================================
+     COURSES SECTION
+     ========================================================= */
+  .courses {
+    display: flex;
+    flex-direction: column;
+    font-family: 'SN Pro', sans-serif;
+    margin-top: 0px;
+  }
+
+  .courses-title {
+    font-size: 60px;
+    font-style: italic;
+    color: var(--text--color);
+    font-weight: bolder;
+  }
+
+  /* --- Course Cards Grid --- */
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin: 40px 200px 40px 200px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    flex: 1 1 250px;
+    min-width: 0;
+    max-width: 320px;
+    padding: 16px;
+    box-sizing: border-box;
+    background: #ffffff;
+    color: var(--text--color);
+    border: #000 solid 1px;
+    box-shadow: 0 1px 4px rgba(19, 49, 92, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(19, 49, 92, 0.1);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .save-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f5f7;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .save-button img {
+    width: 16px;
+    height: 16px;
+  }
+
+  .teacher-avatar {
+    height: 44px;
+    width: 44px;
+    border: none;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .teacher-info {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .teacher-info h1 {
+    font-weight: 600;
+    font-size: 18px;
+    margin: 14px 0 2px;
+    overflow-wrap: anywhere;
+  }
+
+  .teacher-info span {
+    margin: 0;
+    font-size: 13px;
+    color: #6d747c;
+  }
+
+  .course-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .course-tags span {
+    font-size: 12px;
+    background-color: #f9741642;
+    color: #4b5157;
+    border-radius: 20px;
+    padding: 3px 10px;
+  }
+
+  .course-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding: 12px 0;
+    border-top: 1px solid #edeef0;
+    border-bottom: 1px solid #edeef0;
+  }
+
+  .course-duration {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .divider2 {
+    display: none;
+  }
+
+  .course-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .course-price span {
+    font-size: 12px;
+    color: #8a8f96;
+  }
+
+  .course-price p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text--color);
+  }
+
+  .card-actions {
+    margin-top: 16px;
+  }
+
+  .buy-button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    background: #0065ac;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.2s ease;
+  }
+
+  .buy-button:hover {
+    filter: brightness(1.2);
+  }
+
+  .buy-button:active {
+    transform: scale(0.98);
+  }
+
+  .viewAll {
+    display: flex;
+    justify-content: center;
+    font-family: "Special Gothic Expanded One", sans-serif;
+    text-decoration: none;
+  }
+
+  .viewAll a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 20px;
+  }
+
+  .viewAll a:hover {
+    color: #0065ac;
+  }
+
+  /* =========================================================
+     RESEARCH SECTION
+     ========================================================= */
+  .section-heading {
+    margin: 18px 200px 18px 200px;
+    font-family: "Special Gothic Expanded One", sans-serif;
+    font-size: 30px;
+    font-style: italic;
+    color: var(--text--color);
+    font-weight: bolder;
+  }
+
+  .coming-soon {
+    display: flex;
+    justify-content: center;
+    margin: 200px 0 200px 0;
+    font-family: "Special Gothic Expanded One", sans-serif;
+    font-size: 22px;
+    color: var(--text--color);
+  }
+
+  /* =========================================================
+     STORE SECTION
+     ========================================================= */
+  .store-title {
+    margin: 18px 200px 18px 200px;
+    font-family: "Special Gothic Expanded One", sans-serif;
+    font-size: 60px;
+    font-style: italic;
+    color: var(--text--color);
+    font-weight: bolder;
+  }
+
+  /* =========================================================
+     FOOTER
+     ========================================================= */
+  footer {
+    background-color: #020c1b;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  footer p {
+    color: #0065ac;
+    font-size: 2rem;
+    font-family: "Special Gothic Expanded One", sans-serif;
+  }
+
+  /* =========================================================
+     RESPONSIVE — TABLET (≤1024px)
+     ========================================================= */
+  @media (max-width: 1024px) {
+    .cards {
+      margin: 40px 60px;
+    }
+
+    .section-heading {
+      margin: 18px 60px;
+    }
+
+    .hero-actions {
+      width: 75%;
+    }
+  }
+
+  /* =========================================================
+     RESPONSIVE — MOBILE (≤768px)
+     ========================================================= */
+  @media (max-width: 768px) {
+    nav {
+      border-radius: 0 0 15px 15px;
+      height: auto;
+      padding: 10px 16px;
+    }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      background: var(--gredient-color);
+      border-radius: 0 0 15px 15px;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-links a {
+      width: 100%;
+      text-align: center;
+      padding: 14px 0;
+      border-radius: 0;
+      box-sizing: border-box;
+    }
+
+    .auth-actions {
+      display: none;
+    }
+
+    .hamburger {
+      display: flex;
+    }
+
+    .hero-content h1 {
+      margin-top: 110px;
+      font-size: clamp(2.2rem, 9vw, 3.2rem);
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      width: 85%;
+      gap: 25px;
+      text-align: center;
+    }
+
+    .hero-copy {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .divider {
+      width: 60px;
+      height: 1px;
+    }
+
+    .hero-copy p br {
+      display: none;
+    }
+
+    .section-heading {
+      margin: 18px 24px;
+      font-size: 26px;
+    }
+
+    .courses-title {
+      font-size: 40px;
+    }
+
+    .store-title {
+      font-size: 40px;
+      margin: 18px 24px;
+    }
+
+    .cards {
+      margin: 30px 24px;
+      gap: 14px;
+    }
+
+    .card {
+      max-width: 100%;
+      flex: 1 1 100%;
+    }
+
+    .coming-soon {
+      margin: 100px 0;
+    }
+
+    .logo-item {
+      height: 50px;
+      width: auto;
+    }
+
+    .logo-track {
+      gap: 40px;
+    }
+
+    footer {
+      height: 200px;
+    }
+
+    footer p {
+      font-size: 1.4rem;
+      text-align: center;
+      padding: 0 20px;
+    }
+  }
+
+  /* =========================================================
+     RESPONSIVE — SMALL MOBILE (≤480px)
+     ========================================================= */
+  @media (max-width: 480px) {
+    .logo img {
+      width: 140px;
+      height: auto;
+    }
+
+    .hero-content h1 {
+      margin-top: 100px;
+      font-size: clamp(1.8rem, 10vw, 2.6rem);
+    }
+
+    .hero-cta {
+      font-size: 16px;
+    }
+
+    .hero-copy p {
+      font-size: 15px;
+    }
+
+    .courses-title,
+    .store-title {
+      font-size: 32px;
+    }
+
+    .card {
+      padding: 12px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">
+      <img src="images/caliber transparent.png" width="200px" height="100px" alt="MedHub logo">
+    </div>
+
+    <div class="nav-links" id="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#courses">Courses</a>
+      <a href="#research">Research</a>
+      <a href="#store">Store</a>
+      <a href="#">contact</a>
+    </div>
+
+    <div class="auth-actions">
+      <button class="btn-secondary">SignUp</button>
+      <button class="btn-primary">
+        Login
+        <img src="images/mobile-login.png" width="22px" alt="">
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <main>
+
+    <section class="hero-section">
+      <div class="hero-content" id="hero">
+        <div>
+          <h1>
+            Learn<span class="accentDot">.</span>Build<span class="accentDot">.</span>Lead<br>
+            <span class="accentT">with purpose and</span><br>
+            <span class="accentT">precision</span>.
+          </h1>
+        </div>
+
+        <div class="hero-actions">
+          <div class="hero-copy">
+            <img src="images/doctor-white.svg" alt="Doctor icon" width="50" height="50">
+            <span class="divider"></span>
+            <p>
+              A comprehensive platform for medical students across the <br>
+              Kingdom, bringing together learning resources, study<br>
+              materials, and academic support in one place.
+            </p>
+          </div>
+        </div>
+
+        <button class="hero-cta">
+          Get started
+          <div class="icon">
+            <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" fill="currentColor"></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+      <div class="hero-visual">
+        <img src="images/ai-generative-portrait-of-confident-male-doctor-in-white-coat-and-stethoscope-standing-with-arms-crossed-and-looking-at-camera-photo.jpg" alt="Doctor portrait">
+      </div>
+    </section>
+
+    <hr>
+
+    <section class="courses" id="courses">
+      <div class="section-heading">
+        <span class="courses-title">Courses</span>
+      </div>
+
+      <div class="cards">
+
+        <div class="card">
+          <div class="card-header">
+            <img class="teacher-avatar" src="images/teacher.png" alt="Teacher name" width="40px">
+            <button class="save-button" aria-label="Save course">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacher-info">
+            <h1>Web Development</h1>
+            <span>By :Ahmad Khalil</span>
+          </div>
+          <div class="course-tags">
+            <span>University of Jordan</span>
+            <span>2024</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-duration">
+              <img src="images/tutorial.png" width="30px" alt="">
+              <span>20 Hours</span>
+            </div>
+            <span class="divider2"></span>
+            <div class="course-price">
+              <span>price</span>
+              <p>20 JD</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="buy-button">Buy course</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <img class="teacher-avatar" src="images/teacher2.png" alt="Teacher name" width="40px">
+            <button class="save-button" aria-label="Save course">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacher-info">
+            <h1>Graphic Design</h1>
+            <span>By :Lina Odeh</span>
+          </div>
+          <div class="course-tags">
+            <span>German Jordanian University</span>
+            <span>2023</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-duration">
+              <img src="images/tutorial.png" width="30px" alt="">
+              <span>15 Hours</span>
+            </div>
+            <span class="divider2"></span>
+            <div class="course-price">
+              <span>price</span>
+              <p>35 JD</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="buy-button">Buy course</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <img class="teacher-avatar" src="images/teacher3.png" alt="Teacher name" width="40px">
+            <button class="save-button" aria-label="Save course">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacher-info">
+            <h1>Digital Marketing</h1>
+            <span>By :Sara Nasser</span>
+          </div>
+          <div class="course-tags">
+            <span>Princess Sumaya University</span>
+            <span>2024</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-duration">
+              <img src="images/tutorial.png" width="30px" alt="">
+              <span>12 Hours</span>
+            </div>
+            <span class="divider2"></span>
+            <div class="course-price">
+              <span>price</span>
+              <p>25 JD</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="buy-button">Buy course</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <img class="teacher-avatar" src="images/teacher4.png" alt="Teacher name" width="40px">
+            <button class="save-button" aria-label="Save course">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacher-info">
+            <h1>Data Analysis with Python</h1>
+            <span>By :Omar Yasin</span>
+          </div>
+          <div class="course-tags">
+            <span>Jordan University of Science</span>
+            <span>2023</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-duration">
+              <img src="images/tutorial.png" width="30px" alt="">
+              <span>30 Hours</span>
+            </div>
+            <span class="divider2"></span>
+            <div class="course-price">
+              <span>price</span>
+              <p>45 JD</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="buy-button">Buy course</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="viewAll">
+        <a href="#">View all courses <img src="images/right-arrow.png" width="20px" alt=""></a>
+      </div>
+
+    </section>
+
+    <hr>
+
+    <section class="research" id="research">
+      <div class="section-heading">
+        <h1>Research</h1>
+      </div>
+      <div class="coming-soon">
+        <span>Soon!</span>
+      </div>
+    </section>
+
+    <hr>
+
+    <section class="store" id="store">
+      <div class="section-heading">
+        <span class="store-title">Store</span>
+      </div>
+
+      <div class="cards">
+
+        <div class="card">
+          <div class="card-header">
+            <img class="teacher-avatar" src="images/product1.png" alt="Product" width="40px">
+            <button class="save-button" aria-label="Save item">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacher-info">
+            <h1>Stethoscope Pro</h1>
+            <span>By :MedGear</span>
+          </div>
+          <div class="course-tags">
+            <span>Medical Equipment</span>
+            <span>In Stock</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-duration">
+              <img src="images/tutorial.png" width="30px" alt="">
+              <span>Free Shipping</span>
+            </div>
+            <span class="divider2"></span>
+            <div class="course-price">
+              <span>price</span>
+              <p>40 JD</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="buy-button">Buy now</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <img class="teacher-avatar" src="images/product2.png" alt="Product" width="40px">
+            <button class="save-button" aria-label="Save item">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacher-info">
+            <h1>Anatomy Atlas Book</h1>
+            <span>By :MedHub Press</span>
+          </div>
+          <div class="course-tags">
+            <span>Books</span>
+            <span>Bestseller</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-duration">
+              <img src="images/tutorial.png" width="30px" alt="">
+              <span>3rd Edition</span>
+            </div>
+            <span class="divider2"></span>
+            <div class="course-price">
+              <span>price</span>
+              <p>28 JD</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="buy-button">Buy now</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <img class="teacher-avatar" src="images/product3.png" alt="Product" width="40px">
+            <button class="save-button" aria-label="Save item">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacher-info">
+            <h1>White Coat</h1>
+            <span>By :MedHub Apparel</span>
+          </div>
+          <div class="course-tags">
+            <span>Apparel</span>
+            <span>Sizes: S-XL</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-duration">
+              <img src="images/tutorial.png" width="30px" alt="">
+              <span>Cotton Blend</span>
+            </div>
+            <span class="divider2"></span>
+            <div class="course-price">
+              <span>price</span>
+              <p>15 JD</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="buy-button">Buy now</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <img class="teacher-avatar" src="images/product4.png" alt="Product" width="40px">
+            <button class="save-button" aria-label="Save item">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacher-info">
+            <h1>Diagnostic Kit</h1>
+            <span>By :MedGear</span>
+          </div>
+          <div class="course-tags">
+            <span>Medical Equipment</span>
+            <span>New</span>
+          </div>
+          <div class="course-meta">
+            <div class="course-duration">
+              <img src="images/tutorial.png" width="30px" alt="">
+              <span>All-in-one</span>
+            </div>
+            <span class="divider2"></span>
+            <div class="course-price">
+              <span>price</span>
+              <p>55 JD</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="buy-button">Buy now</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="viewAll">
+        <a href="#">View all items <img src="images/right-arrow.png" width="20px" alt=""></a>
+      </div>
+
+    </section>
+
+    <section class="logo-carousel">
+      <p class="logo-carousel-label">Trusted by students at</p>
+      <div class="logo-track-wrapper">
+        <div class="logo-track">
+          <!-- First set -->
+          <img src="images/albalqa.png" width="63" height="70" alt="Al-Balqa Applied University" class="logo-item">
+          <img src="images/yarmouk.png" width="65" height="70" alt="Yarmouk University" class="logo-item">
+          <img src="images/mutah.png" width="61" height="70" alt="Mutah University" class="logo-item">
+          <img src="images/hashemite.png" width="55" height="70" alt="The Hashemite University" class="logo-item">
+          <img src="images/just.png" width="68" height="70" alt="Jordan University of Science and Technology" class="logo-item">
+          <img src="images/ju.png" width="102" height="70" alt="University of Jordan" class="logo-item">
+          <!-- Duplicate set (required for seamless loop) -->
+          <img src="images/albalqa.png" width="63" height="70" alt="Al-Balqa Applied University" class="logo-item">
+          <img src="images/yarmouk.png" width="65" height="70" alt="Yarmouk University" class="logo-item">
+          <img src="images/mutah.png" width="61" height="70" alt="Mutah University" class="logo-item">
+          <img src="images/hashemite.png" width="55" height="70" alt="The Hashemite University" class="logo-item">
+          <img src="images/just.png" width="68" height="70" alt="Jordan University of Science and Technology" class="logo-item">
+          <img src="images/ju.png" width="102" height="70" alt="University of Jordan" class="logo-item">
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Coming soon!</p>
+    </footer>
+
+  </main>
+
+  <script>
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburgerBtn.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      hamburgerBtn.classList.toggle('active', isOpen);
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close the mobile menu after tapping a link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburgerBtn.classList.remove('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Close the mobile menu if the viewport grows back past the mobile breakpoint
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+        hamburgerBtn.classList.remove('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+
+</body>
+</html>

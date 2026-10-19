@@ -1,0 +1,1106 @@
+Replace your current page with this single `index.html`. It keeps the same sections—navbar, hero, courses, research, store, universities, footer—but makes it responsive, polished, and interactive. Saved items and cart items work in the browser using local storage.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedHub | Learn. Build. Lead.</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --orange: #f97316;
+      --orange-dark: #dc5f0a;
+      --blue: #0065ac;
+      --navy: #0f213c;
+      --darkest: #020c1b;
+      --dark-blue: #0b2545;
+      --mid-blue: #13315c;
+      --surface: #ffffff;
+      --page: #f4f6f8;
+      --muted: #68788d;
+      --border: #e3e8ee;
+      --success: #16803c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--navy);
+      background: var(--page);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* Navbar */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(2, 12, 27, 0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-content {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      text-decoration: none;
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--darkest);
+      background: var(--orange);
+      font-weight: 700;
+    }
+
+    .logo span {
+      color: var(--orange);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-links a {
+      padding: 9px 12px;
+      border-radius: 8px;
+      color: #d4dfeb;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-button,
+    .sign-up-button,
+    .login-button {
+      border: 0;
+      border-radius: 9px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    .cart-button {
+      position: relative;
+      color: #dce9f3;
+      background: transparent;
+    }
+
+    .cart-button:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: 2px;
+      right: 1px;
+      min-width: 17px;
+      height: 17px;
+      display: grid;
+      place-items: center;
+      padding: 0 4px;
+      border-radius: 99px;
+      color: white;
+      background: var(--orange);
+      font-size: 10px;
+    }
+
+    .sign-up-button {
+      color: var(--orange);
+      background: transparent;
+    }
+
+    .sign-up-button:hover {
+      color: white;
+    }
+
+    .login-button {
+      color: white;
+      background: var(--blue);
+    }
+
+    .login-button:hover {
+      background: #00558f;
+    }
+
+    /* Hero */
+    .hero {
+      overflow: hidden;
+      color: white;
+      background:
+        radial-gradient(circle at 83% 22%, rgba(249, 115, 22, 0.25), transparent 22%),
+        linear-gradient(120deg, var(--darkest), var(--dark-blue), var(--mid-blue));
+    }
+
+    .hero-content {
+      min-height: 570px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 50px;
+      padding: 80px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: #d9e9f7;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 2px;
+      background: var(--orange);
+    }
+
+    .hero h1 {
+      max-width: 760px;
+      margin: 0;
+      font-family: "Special Gothic Expanded One", sans-serif;
+      font-size: clamp(2.7rem, 5vw, 4.9rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -2px;
+    }
+
+    .accent {
+      color: var(--orange);
+    }
+
+    .hero-description {
+      max-width: 620px;
+      margin: 26px 0 32px;
+      color: #c7d6e4;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .main-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 17px;
+      border: 0;
+      border-radius: 10px;
+      color: var(--darkest);
+      background: var(--orange);
+      font-weight: 700;
+      box-shadow: 0 12px 25px rgba(249, 115, 22, 0.22);
+    }
+
+    .main-action:hover {
+      background: #ff8a35;
+      transform: translateY(-2px);
+    }
+
+    .hero-note {
+      color: #bfd0df;
+      font-size: 13px;
+    }
+
+    .hero-card {
+      position: relative;
+      padding: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.18);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      right: -80px;
+      bottom: -80px;
+      border: 28px solid var(--orange);
+      border-radius: 50%;
+      opacity: 0.9;
+    }
+
+    .hero-card-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 35px;
+      border-radius: 14px;
+      background: var(--orange);
+      font-size: 25px;
+    }
+
+    .hero-card h2 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: 25px;
+    }
+
+    .hero-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: #c8d6e3;
+      line-height: 1.7;
+    }
+
+    /* Sections */
+    section {
+      scroll-margin-top: 85px;
+    }
+
+    .content-section {
+      padding: 84px 0;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-family: "Special Gothic Expanded One", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 400;
+      letter-spacing: -1px;
+    }
+
+    .section-heading p {
+      max-width: 420px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      box-shadow: 0 4px 14px rgba(15, 33, 60, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 30px rgba(15, 33, 60, 0.1);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 47px;
+      height: 47px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e8eef3;
+    }
+
+    .save-button {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--navy);
+      background: #f8fafc;
+      font-size: 17px;
+    }
+
+    .save-button:hover,
+    .save-button.saved {
+      border-color: var(--orange);
+      color: white;
+      background: var(--orange);
+    }
+
+    .card h3 {
+      min-height: 48px;
+      margin: 18px 0 3px;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .author {
+      min-height: 21px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 15px 0;
+    }
+
+    .tag {
+      padding: 4px 9px;
+      border-radius: 20px;
+      color: #83420d;
+      background: #fff0e5;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .card-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 13px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .price {
+      color: var(--navy);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .buy-button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 11px 12px;
+      border: 0;
+      border-radius: 9px;
+      color: white;
+      background: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .buy-button:hover {
+      background: #00558f;
+    }
+
+    .view-all {
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+    }
+
+    .view-all button {
+      padding: 10px 4px;
+      border: 0;
+      color: var(--orange);
+      background: transparent;
+      font-weight: 700;
+    }
+
+    .view-all button:hover {
+      color: var(--blue);
+    }
+
+    /* Research */
+    .research-section {
+      color: white;
+      background: linear-gradient(120deg, var(--darkest), var(--dark-blue));
+    }
+
+    .research-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 40px;
+      padding: 66px 0;
+    }
+
+    .research-box h2 {
+      margin: 0 0 14px;
+      font-family: "Special Gothic Expanded One", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 400;
+    }
+
+    .research-box p {
+      max-width: 570px;
+      margin: 0;
+      color: #c5d5e4;
+      line-height: 1.7;
+    }
+
+    .research-status {
+      padding: 13px 18px;
+      border: 1px solid rgba(249, 115, 22, 0.55);
+      border-radius: 99px;
+      color: #ffd6b5;
+      background: rgba(249, 115, 22, 0.12);
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* University logos */
+    .universities {
+      padding: 52px 0;
+      overflow: hidden;
+      background: rgba(19, 49, 92, 0.06);
+    }
+
+    .university-title {
+      margin: 0 0 30px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .logo-track {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 38px;
+      filter: grayscale(0.2);
+    }
+
+    .university-logo {
+      width: auto;
+      height: 62px;
+      object-fit: contain;
+      opacity: 0.75;
+    }
+
+    /* Footer */
+    footer {
+      padding: 36px 0;
+      color: #b9c8d7;
+      background: var(--darkest);
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-content p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .footer-content a {
+      color: var(--orange);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 30;
+      max-width: 330px;
+      padding: 14px 17px;
+      border-radius: 10px;
+      color: white;
+      background: var(--navy);
+      box-shadow: 0 14px 30px rgba(2, 12, 27, 0.28);
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(18px);
+      transition: 0.25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-content {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        max-width: 520px;
+      }
+
+      .course-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .nav-content {
+        min-height: 64px;
+      }
+
+      .sign-up-button {
+        display: none;
+      }
+
+      .cart-button {
+        padding: 9px;
+      }
+
+      .login-button {
+        padding: 9px 12px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .hero-content {
+        min-height: auto;
+        padding: 70px 0;
+      }
+
+      .hero h1 {
+        font-size: 2.45rem;
+        letter-spacing: -1.4px;
+      }
+
+      .hero-description {
+        font-size: 15px;
+      }
+
+      .content-section {
+        padding: 60px 0;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading p {
+        margin-top: 13px;
+      }
+
+      .course-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .research-box {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .research-status {
+        justify-self: start;
+      }
+
+      .logo-track {
+        flex-wrap: wrap;
+        gap: 25px;
+      }
+
+      .university-logo {
+        height: 45px;
+      }
+
+      .footer-content {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="container nav-content">
+      <a class="logo" href="#hero">
+        <span class="logo-mark">M</span>
+        MedHub<span>.</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#hero">Home</a>
+        <a href="#courses">Courses</a>
+        <a href="#research">Research</a>
+        <a href="#store">Store</a>
+        <a href="#footer">Contact</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="cart-button" id="cart-button" type="button" aria-label="View cart">
+          🛒
+          <span class="cart-count" id="cart-count">0</span>
+        </button>
+
+        <a class="sign-up-button" href="../SignUp/index.html">Sign up</a>
+        <a class="login-button" href="../Login/index.html">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="container hero-content">
+        <div>
+          <div class="eyebrow">Built for medical students</div>
+
+          <h1>
+            Learn<span class="accent">.</span>
+            Build<span class="accent">.</span>
+            Lead<span class="accent">.</span>
+          </h1>
+
+          <p class="hero-description">
+            MedHub brings courses, academic resources, and practical medical tools together in one place for students across Jordan.
+          </p>
+
+          <div class="hero-actions">
+            <button class="main-action" id="get-started" type="button">
+              Explore courses <span>→</span>
+            </button>
+            <span class="hero-note">Resources made for your academic journey.</span>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <div class="hero-card-icon">⚕</div>
+          <h2>Everything in one place.</h2>
+          <p>
+            Learn from trusted educators, find useful study materials, and access medical essentials without searching everywhere.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="content-section" id="courses">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Courses</h2>
+          </div>
+          <p>Learn from educators and professionals with courses designed around your medical and academic goals.</p>
+        </div>
+
+        <div class="course-grid">
+          <article class="card">
+            <div class="card-top">
+              <img class="avatar" src="images/teacher.png" alt="Ahmad Khalil">
+              <button class="save-button" type="button" data-item="Web Development" aria-label="Save Web Development">♡</button>
+            </div>
+            <h3>Web Development</h3>
+            <p class="author">By Ahmad Khalil</p>
+            <div class="tags">
+              <span class="tag">University of Jordan</span>
+              <span class="tag">2024</span>
+            </div>
+            <div class="card-info">
+              <span>◷ 20 hours</span>
+              <strong class="price">20 JD</strong>
+            </div>
+            <button class="buy-button" type="button" data-item="Web Development" data-price="20 JD">Enrol now</button>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <img class="avatar" src="images/teacher2.png" alt="Lina Odeh">
+              <button class="save-button" type="button" data-item="Graphic Design" aria-label="Save Graphic Design">♡</button>
+            </div>
+            <h3>Graphic Design</h3>
+            <p class="author">By Lina Odeh</p>
+            <div class="tags">
+              <span class="tag">German Jordanian University</span>
+              <span class="tag">2023</span>
+            </div>
+            <div class="card-info">
+              <span>◷ 15 hours</span>
+              <strong class="price">35 JD</strong>
+            </div>
+            <button class="buy-button" type="button" data-item="Graphic Design" data-price="35 JD">Enrol now</button>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <img class="avatar" src="images/teacher3.png" alt="Sara Nasser">
+              <button class="save-button" type="button" data-item="Digital Marketing" aria-label="Save Digital Marketing">♡</button>
+            </div>
+            <h3>Digital Marketing</h3>
+            <p class="author">By Sara Nasser</p>
+            <div class="tags">
+              <span class="tag">Princess Sumaya University</span>
+              <span class="tag">2024</span>
+            </div>
+            <div class="card-info">
+              <span>◷ 12 hours</span>
+              <strong class="price">25 JD</strong>
+            </div>
+            <button class="buy-button" type="button" data-item="Digital Marketing" data-price="25 JD">Enrol now</button>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <img class="avatar" src="images/teacher4.png" alt="Omar Yasin">
+              <button class="save-button" type="button" data-item="Data Analysis with Python" aria-label="Save Data Analysis with Python">♡</button>
+            </div>
+            <h3>Data Analysis with Python</h3>
+            <p class="author">By Omar Yasin</p>
+            <div class="tags">
+              <span class="tag">Jordan University of Science</span>
+              <span class="tag">2023</span>
+            </div>
+            <div class="card-info">
+              <span>◷ 30 hours</span>
+              <strong class="price">45 JD</strong>
+            </div>
+            <button class="buy-button" type="button" data-item="Data Analysis with Python" data-price="45 JD">Enrol now</button>
+          </article>
+        </div>
+
+        <div class="view-all">
+          <button type="button" data-message="More courses will be available soon.">View all courses →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-section" id="research">
+      <div class="container research-box">
+        <div>
+          <h2>Research is coming.</h2>
+          <p>
+            A dedicated place for research opportunities, collaboration, and academic materials is currently being prepared for MedHub students.
+          </p>
+        </div>
+        <div class="research-status">Coming soon</div>
+      </div>
+    </section>
+
+    <section class="content-section" id="store">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <h2>Store</h2>
+          </div>
+          <p>Find medical essentials and study tools chosen to support your everyday university life.</p>
+        </div>
+
+        <div class="course-grid">
+          <article class="card">
+            <div class="card-top">
+              <img class="avatar" src="images/product1.png" alt="Stethoscope Pro">
+              <button class="save-button" type="button" data-item="Stethoscope Pro" aria-label="Save Stethoscope Pro">♡</button>
+            </div>
+            <h3>Stethoscope Pro</h3>
+            <p class="author">By MedGear</p>
+            <div class="tags">
+              <span class="tag">Medical equipment</span>
+              <span class="tag">In stock</span>
+            </div>
+            <div class="card-info">
+              <span>Free shipping</span>
+              <strong class="price">40 JD</strong>
+            </div>
+            <button class="buy-button" type="button" data-item="Stethoscope Pro" data-price="40 JD">Add to cart</button>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <img class="avatar" src="images/product2.png" alt="Anatomy Atlas Book">
+              <button class="save-button" type="button" data-item="Anatomy Atlas Book" aria-label="Save Anatomy Atlas Book">♡</button>
+            </div>
+            <h3>Anatomy Atlas Book</h3>
+            <p class="author">By MedHub Press</p>
+            <div class="tags">
+              <span class="tag">Books</span>
+              <span class="tag">Bestseller</span>
+            </div>
+            <div class="card-info">
+              <span>3rd edition</span>
+              <strong class="price">28 JD</strong>
+            </div>
+            <button class="buy-button" type="button" data-item="Anatomy Atlas Book" data-price="28 JD">Add to cart</button>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <img class="avatar" src="images/product3.png" alt="White Coat">
+              <button class="save-button" type="button" data-item="White Coat" aria-label="Save White Coat">♡</button>
+            </div>
+            <h3>White Coat</h3>
+            <p class="author">By MedHub Apparel</p>
+            <div class="tags">
+              <span class="tag">Apparel</span>
+              <span class="tag">Sizes S–XL</span>
+            </div>
+            <div class="card-info">
+              <span>Cotton blend</span>
+              <strong class="price">15 JD</strong>
+            </div>
+            <button class="buy-button" type="button" data-item="White Coat" data-price="15 JD">Add to cart</button>
+          </article>
+
+          <article class="card">
+            <div class="card-top">
+              <img class="avatar" src="images/product4.png" alt="Diagnostic Kit">
+              <button class="save-button" type="button" data-item="Diagnostic Kit" aria-label="Save Diagnostic Kit">♡</button>
+            </div>
+            <h3>Diagnostic Kit</h3>
+            <p class="author">By MedGear</p>
+            <div class="tags">
+              <span class="tag">Medical equipment</span>
+              <span class="tag">New</span>
+            </div>
+            <div class="card-info">
+              <span>All-in-one kit</span>
+              <strong class="price">55 JD</strong>
+            </div>
+            <button class="buy-button" type="button" data-item="Diagnostic Kit" data-price="55 JD">Add to cart</button>
+          </article>
+        </div>
+
+        <div class="view-all">
+          <button type="button" data-message="More store items will be available soon.">View all items →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="universities">
+      <div class="container">
+        <p class="university-title">Trusted by students at</p>
+
+        <div class="logo-track">
+          <img class="university-logo" src="images/albalqa.png" alt="Al-Balqa Applied University">
+          <img class="university-logo" src="images/yarmouk.png" alt="Yarmouk University">
+          <img class="university-logo" src="images/mutah.png" alt="Mutah University">
+          <img class="university-logo" src="images/hashemite.png" alt="The Hashemite University">
+          <img class="university-logo" src="images/just.png" alt="Jordan University of Science and Technology">
+          <img class="university-logo" src="images/ju.png" alt="University of Jordan">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer">
+    <div class="container footer-content">
+      <p>© 2026 MedHub. Built for future healthcare professionals.</p>
+      <a href="mailto:hello@medhub.com">hello@medhub.com</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const toast = document.getElementById("toast");
+    const cartCount = document.getElementById("cart-count");
+
+    let cart = JSON.parse(localStorage.getItem("medhub-cart")) || [];
+    let saved = JSON.parse(localStorage.getItem("medhub-saved")) || [];
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(window.toastTimer);
+
+      window.toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2600);
+    }
+
+    function saveData() {
+      localStorage.setItem("medhub-cart", JSON.stringify(cart));
+      localStorage.setItem("medhub-saved", JSON.stringify(saved));
+    }
+
+    function updateCartCount() {
+      cartCount.textContent = cart.length;
+    }
+
+    function updateSavedButtons() {
+      document.querySelectorAll(".save-button").forEach((button) => {
+        const isSaved = saved.includes(button.dataset.item);
+
+        button.classList.toggle("saved", isSaved);
+        button.textContent = isSaved ? "♥" : "♡";
+        button.setAttribute(
+          "aria-label",
+          isSaved
+            ? `Remove ${button.dataset.item} from saved items`
+            : `Save ${button.dataset.item}`
+        );
+      });
+    }
+
+    document.getElementById("get-started").addEventListener("click", () => {
+      document.getElementById("courses").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+
+    document.querySelectorAll(".save-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.dataset.item;
+        const isSaved = saved.includes(item);
+
+        if (isSaved) {
+          saved = saved.filter((savedItem) => savedItem !== item);
+          showToast(`${item} removed from saved items.`);
+        } else {
+          saved.push(item);
+          showToast(`${item} saved successfully.`);
+        }
+
+        saveData();
+        updateSavedButtons();
+      });
+    });
+
+    document.querySelectorAll(".buy-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = {
+          name: button.dataset.item,
+          price: button.dataset.price
+        };
+
+        const alreadyInCart = cart.some((cartItem) => cartItem.name === item.name);
+
+        if (alreadyInCart) {
+          showToast(`${item.name} is already in your cart.`);
+          return;
+        }
+
+        cart.push(item);
+        saveData();
+        updateCartCount();
+        showToast(`${item.name} added to your cart.`);
+      });
+    });
+
+    document.getElementById("cart-button").addEventListener("click", () => {
+      if (cart.length === 0) {
+        showToast("Your cart is currently empty.");
+        return;
+      }
+
+      const items = cart.map((item) => `• ${item.name} — ${item.price}`).join("\n");
+      alert(`Your cart (${cart.length})\n\n${items}`);
+    });
+
+    document.querySelectorAll("[data-message]").forEach((button) => {
+      button.addEventListener("click", () => {
+        showToast(button.dataset.message);
+      });
+    });
+
+    updateCartCount();
+    updateSavedButtons();
+  </script>
+</body>
+</html>
+```

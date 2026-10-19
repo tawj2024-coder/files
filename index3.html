@@ -1,0 +1,888 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedHub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: hsla(183, 50%, 65%, 0.301);
+      --secondary-color: #f97316;
+      --text-color: #0f213c;
+      --bg-color: #fafdff;
+      --gradient: linear-gradient(120deg, #020c1b 0%, #0b2545 50%, #13315c 100%);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--text-color);
+      background: #f4f2f1;
+      font-family: "SN Pro", sans-serif;
+    }
+
+    button {
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    section { scroll-margin-top: 64px; }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 64px;
+      padding: 0 24px;
+      background: #020c1b;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .logo img {
+      width: 165px;
+      height: 58px;
+      object-fit: contain;
+    }
+
+    .navLinks {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .navLinks a {
+      padding: 8px 10px;
+      border-radius: 8px;
+      color: var(--bg-color);
+      text-decoration: none;
+      font-size: 17px;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .navLinks a:hover {
+      color: #111;
+      background: var(--secondary-color);
+    }
+
+    .loginBtn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .primaryBtn,
+    .secondaryBtn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      min-height: 40px;
+      padding: 8px 13px;
+      border-radius: 11px;
+      font-size: 15px;
+      font-weight: 800;
+      transition: transform .15s ease, background .2s ease;
+    }
+
+    .primaryBtn {
+      color: var(--secondary-color);
+      background: #000;
+      box-shadow: 3px 5px 15px rgba(0, 0, 0, .35);
+    }
+
+    .primaryBtn:hover {
+      color: #111;
+      background: var(--secondary-color);
+    }
+
+    .secondaryBtn {
+      color: var(--secondary-color);
+      background: transparent;
+    }
+
+    .secondaryBtn:hover {
+      color: #fff;
+    }
+
+    .primaryBtn:active,
+    .secondaryBtn:active,
+    .buyButton:active {
+      transform: scale(.96);
+    }
+
+    .menuToggle,
+    .mobileActions {
+      display: none;
+    }
+
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 690px;
+      padding: 100px 20px 40px;
+      text-align: center;
+      background: var(--gradient);
+    }
+
+    .hero h1 {
+      margin: 30px 0 0;
+      color: var(--bg-color);
+      font-family: "Special Gothic Expanded One", sans-serif;
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .accentDot,
+    .accentT {
+      color: var(--secondary-color);
+    }
+
+    .accentT {
+      font-style: italic;
+    }
+
+    .getStarted {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+      width: min(900px, 90%);
+      margin-top: 42px;
+    }
+
+    .getStartedBranch {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--bg-color);
+      text-align: left;
+      font-size: 17px;
+    }
+
+    .getStartedBranch p {
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .divider {
+      display: inline-block;
+      flex-shrink: 0;
+      width: 1px;
+      height: 70px;
+      background: var(--secondary-color);
+    }
+
+    .cssbuttons-io-button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      min-width: 175px;
+      height: 54px;
+      padding: 0 56px 0 24px;
+      overflow: hidden;
+      border-radius: 14px;
+      color: var(--text-color);
+      background: var(--bg-color);
+      box-shadow: inset 0 0 1.6em -.6em #0b0a0d;
+      font-family: "Special Gothic Expanded One", sans-serif;
+      font-size: 16px;
+    }
+
+    .cssbuttons-io-button .icon {
+      position: absolute;
+      right: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: var(--secondary-color);
+      transition: width .3s ease;
+    }
+
+    .cssbuttons-io-button:hover .icon {
+      width: calc(100% - 10px);
+    }
+
+    /* Sections */
+    .Header {
+      margin: 0;
+      padding: 40px max(30px, calc((100% - 1100px) / 2));
+      color: var(--text-color);
+      font-family: "Special Gothic Expanded One", sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.75rem);
+      font-weight: bold;
+    }
+
+    .Header h1 { margin: 0; font: inherit; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      width: min(1100px, calc(100% - 40px));
+      margin: 0 auto 35px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 16px;
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 1px 5px rgba(19, 49, 92, .1);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 18px rgba(19, 49, 92, .14);
+    }
+
+    .cardImgs {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .teacherImg {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e7eef5;
+    }
+
+    .saveButton {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #f4f5f7;
+    }
+
+    .saveButton img {
+      width: 17px;
+      height: 17px;
+    }
+
+    .teacherInfo h2 {
+      margin: 15px 0 3px;
+      font-size: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .teacherInfo span {
+      color: #6d747c;
+      font-size: 13px;
+    }
+
+    .labelsBar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .labelsBar span {
+      padding: 4px 9px;
+      border-radius: 20px;
+      color: #4b5157;
+      background: #f9741642;
+      font-size: 12px;
+    }
+
+    .courseInfo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 12px 0;
+      border-top: 1px solid #edeef0;
+      border-bottom: 1px solid #edeef0;
+    }
+
+    .courseDuration {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .courseDuration img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .coursePricing {
+      text-align: right;
+    }
+
+    .coursePricing span {
+      color: #8a8f96;
+      font-size: 12px;
+    }
+
+    .coursePricing p {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .buyButton {
+      width: 100%;
+      min-height: 42px;
+      margin-top: 16px;
+      border-radius: 10px;
+      color: #fff;
+      background: #0065ac;
+      font-weight: 700;
+    }
+
+    .buyButton:hover {
+      filter: brightness(1.15);
+    }
+
+    .viewAll {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 45px;
+      font-family: "Special Gothic Expanded One", sans-serif;
+    }
+
+    .viewAll a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+
+    .viewAll a:hover { color: #0065ac; }
+
+    .research {
+      background: var(--gradient);
+    }
+
+    .research .Header,
+    .soon {
+      color: var(--bg-color);
+    }
+
+    .soon {
+      display: flex;
+      justify-content: center;
+      padding: 130px 20px;
+      text-align: center;
+      font-family: "Special Gothic Expanded One", sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+    }
+
+    .logo-carousel {
+      padding: 26px 0;
+      overflow: hidden;
+      text-align: center;
+      background: var(--primary-color);
+    }
+
+    .logo-carousel-label {
+      margin: 0 0 28px;
+      color: #56718a;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .logo-track-wrapper {
+      width: 100%;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .logo-track {
+      display: flex;
+      align-items: center;
+      gap: 100px;
+      width: max-content;
+      animation: scrollLogos 42s linear infinite;
+    }
+
+    .logo-item {
+      width: 90px;
+      height: 60px;
+      object-fit: contain;
+      opacity: .8;
+      flex-shrink: 0;
+    }
+
+    @keyframes scrollLogos {
+      to { transform: translateX(calc(-50% - 50px)); }
+    }
+
+    footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 220px;
+      padding: 25px;
+      text-align: center;
+      background: #020c1b;
+    }
+
+    footer p {
+      color: #2886cb;
+      font-family: "Special Gothic Expanded One", sans-serif;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+    }
+
+    /* Tablet */
+    @media (max-width: 1000px) {
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .getStarted { width: min(90%, 720px); }
+    }
+
+    /* Small screens */
+    @media (max-width: 768px) {
+      nav {
+        height: 64px;
+        padding: 0 16px;
+      }
+
+      .logo img {
+        width: 140px;
+        height: 54px;
+      }
+
+      .loginBtn {
+        display: none;
+      }
+
+      .menuToggle {
+        display: block;
+        width: 43px;
+        height: 43px;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, .25);
+        border-radius: 10px;
+        background: transparent;
+      }
+
+      .menuToggle span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        margin: 5px auto;
+        border-radius: 2px;
+        background: var(--bg-color);
+        transition: transform .25s ease, opacity .25s ease;
+      }
+
+      .menuToggle.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      .menuToggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menuToggle.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      .navLinks {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 3px;
+        max-height: 0;
+        padding: 0 16px;
+        overflow: hidden;
+        background: #020c1b;
+        border-top: 1px solid transparent;
+        transition: max-height .3s ease, padding .3s ease;
+      }
+
+      .navLinks.active {
+        max-height: 520px;
+        padding: 14px 16px 20px;
+        border-top-color: rgba(255, 255, 255, .15);
+      }
+
+      .navLinks a {
+        padding: 12px;
+        font-size: 17px;
+      }
+
+      .mobileActions {
+        display: flex;
+        gap: 10px;
+        padding-top: 12px;
+        margin-top: 8px;
+        border-top: 1px solid rgba(255, 255, 255, .15);
+      }
+
+      .mobileActions .primaryBtn,
+      .mobileActions .secondaryBtn {
+        flex: 1;
+        min-height: 44px;
+      }
+
+      .mobileActions .secondaryBtn {
+        border: 1px solid var(--secondary-color);
+        color: var(--secondary-color);
+      }
+
+      .hero {
+        min-height: 620px;
+        padding: 95px 16px 38px;
+      }
+
+      .hero h1 {
+        margin-top: 20px;
+        font-size: clamp(2.3rem, 11vw, 4rem);
+      }
+
+      .getStarted {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        margin-top: 30px;
+      }
+
+      .getStartedBranch {
+        flex-direction: column;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      .getStartedBranch p br {
+        display: none;
+      }
+
+      .divider {
+        width: 65px;
+        height: 1px;
+      }
+
+      .cssbuttons-io-button {
+        align-self: center;
+        margin-top: 6px;
+      }
+
+      .Header {
+        padding: 35px 20px 25px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+        width: min(100% - 32px, 430px);
+      }
+
+      .card {
+        max-width: 100%;
+      }
+
+      .logo-track { gap: 40px; }
+      .logo-item { width: 70px; height: 50px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="logo">
+      <img src="images/caliber transparent.png" alt="MedHub logo">
+    </div>
+
+    <button class="menuToggle" type="button" aria-label="Open navigation menu"
+      aria-controls="primary-navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="navLinks" id="primary-navigation">
+      <a href="#hero">Home</a>
+      <a href="#courses">Courses</a>
+      <a href="#research">Research</a>
+      <a href="#store">Store</a>
+      <a href="#contact">Contact</a>
+
+      <div class="mobileActions">
+        <button class="secondaryBtn">Sign Up</button>
+        <button class="primaryBtn" onclick="window.location.href='../Login/index.html'">
+          Login
+          <img src="images/mobile-login.png" width="20" alt="">
+        </button>
+      </div>
+    </div>
+
+    <div class="loginBtn">
+      <button class="secondaryBtn">Sign Up</button>
+      <button class="primaryBtn" onclick="window.location.href='../Login/index.html'">
+        Login
+        <img src="images/mobile-login.png" width="20" alt="">
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero">
+      <h1>
+        Learn<span class="accentDot">.</span>Build<span class="accentDot">.</span>Lead<br>
+        <span class="accentT">with purpose and</span><br>
+        <span class="accentT">precision</span>.
+      </h1>
+
+      <div class="getStarted">
+        <div class="getStartedBranch">
+          <img src="images/doctor-white.svg" alt="Doctor icon" width="50" height="50">
+          <span class="divider"></span>
+          <p>
+            A comprehensive platform for medical students across the<br>
+            Kingdom, bringing together learning resources, study<br>
+            materials, and academic support in one place.
+          </p>
+        </div>
+
+        <button class="cssbuttons-io-button">
+          Get started
+          <span class="icon">
+            <svg height="24" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 12H20M13 5L20 12L13 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section class="courses" id="courses">
+      <div class="Header">Courses</div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="cardImgs">
+            <img class="teacherImg" src="images/teacher.png" alt="Ahmad Khalil">
+            <button class="saveButton" aria-label="Save Web Development course">
+              <img src="images/shopping-cart.png" alt="">
+            </button>
+          </div>
+          <div class="teacherInfo"><h2>Web Development</h2><span>By: Ahmad Khalil</span></div>
+          <div class="labelsBar"><span>University of Jordan</span><span>2024</span></div>
+          <div class="courseInfo">
+            <div class="courseDuration"><img src="images/tutorial.png" alt=""><span>20 Hours</span></div>
+            <div class="coursePricing"><span>Price</span><p>20 JD</p></div>
+          </div>
+          <button class="buyButton">Buy course</button>
+        </article>
+
+        <article class="card">
+          <div class="cardImgs">
+            <img class="teacherImg" src="images/teacher.png" alt="Lina Odeh">
+            <button class="saveButton" aria-label="Save Graphic Design course"><img src="images/shopping-cart.png" alt=""></button>
+          </div>
+          <div class="teacherInfo"><h2>Graphic Design</h2><span>By: Lina Odeh</span></div>
+          <div class="labelsBar"><span>German Jordanian University</span><span>2023</span></div>
+          <div class="courseInfo">
+            <div class="courseDuration"><img src="images/tutorial.png" alt=""><span>15 Hours</span></div>
+            <div class="coursePricing"><span>Price</span><p>35 JD</p></div>
+          </div>
+          <button class="buyButton">Buy course</button>
+        </article>
+
+        <article class="card">
+          <div class="cardImgs">
+            <img class="teacherImg" src="images/teacher.png" alt="Sara Nasser">
+            <button class="saveButton" aria-label="Save Digital Marketing course"><img src="images/shopping-cart.png" alt=""></button>
+          </div>
+          <div class="teacherInfo"><h2>Digital Marketing</h2><span>By: Sara Nasser</span></div>
+          <div class="labelsBar"><span>Princess Sumaya University</span><span>2024</span></div>
+          <div class="courseInfo">
+            <div class="courseDuration"><img src="images/tutorial.png" alt=""><span>12 Hours</span></div>
+            <div class="coursePricing"><span>Price</span><p>25 JD</p></div>
+          </div>
+          <button class="buyButton">Buy course</button>
+        </article>
+
+        <article class="card">
+          <div class="cardImgs">
+            <img class="teacherImg" src="images/teacher.png" alt="Omar Yasin">
+            <button class="saveButton" aria-label="Save Data Analysis course"><img src="images/shopping-cart.png" alt=""></button>
+          </div>
+          <div class="teacherInfo"><h2>Data Analysis with Python</h2><span>By: Omar Yasin</span></div>
+          <div class="labelsBar"><span>Jordan University of Science</span><span>2023</span></div>
+          <div class="courseInfo">
+            <div class="courseDuration"><img src="images/tutorial.png" alt=""><span>30 Hours</span></div>
+            <div class="coursePricing"><span>Price</span><p>45 JD</p></div>
+          </div>
+          <button class="buyButton">Buy course</button>
+        </article>
+      </div>
+
+      <div class="viewAll">
+        <a href="#">View all courses <img src="images/right-arrow.png" width="20" alt=""></a>
+      </div>
+    </section>
+
+    <section class="research" id="research">
+      <div class="Header"><h1>Research</h1></div>
+      <div class="soon">Coming soon!</div>
+    </section>
+
+    <section class="store" id="store">
+      <div class="Header">Store</div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="cardImgs">
+            <img class="teacherImg" src="images/product1.png" alt="Stethoscope Pro">
+            <button class="saveButton" aria-label="Save Stethoscope Pro"><img src="images/shopping-cart.png" alt=""></button>
+          </div>
+          <div class="teacherInfo"><h2>Stethoscope Pro</h2><span>By: MedGear</span></div>
+          <div class="labelsBar"><span>Medical Equipment</span><span>In Stock</span></div>
+          <div class="courseInfo">
+            <div class="courseDuration"><img src="images/tutorial.png" alt=""><span>Free Shipping</span></div>
+            <div class="coursePricing"><span>Price</span><p>40 JD</p></div>
+          </div>
+          <button class="buyButton">Buy now</button>
+        </article>
+
+        <article class="card">
+          <div class="cardImgs">
+            <img class="teacherImg" src="images/product2.png" alt="Anatomy Atlas Book">
+            <button class="saveButton" aria-label="Save Anatomy Atlas Book"><img src="images/shopping-cart.png" alt=""></button>
+          </div>
+          <div class="teacherInfo"><h2>Anatomy Atlas Book</h2><span>By: MedHub Press</span></div>
+          <div class="labelsBar"><span>Books</span><span>Bestseller</span></div>
+          <div class="courseInfo">
+            <div class="courseDuration"><img src="images/tutorial.png" alt=""><span>3rd Edition</span></div>
+            <div class="coursePricing"><span>Price</span><p>28 JD</p></div>
+          </div>
+          <button class="buyButton">Buy now</button>
+        </article>
+
+        <article class="card">
+          <div class="cardImgs">
+            <img class="teacherImg" src="images/product3.png" alt="White Coat">
+            <button class="saveButton" aria-label="Save White Coat"><img src="images/shopping-cart.png" alt=""></button>
+          </div>
+          <div class="teacherInfo"><h2>White Coat</h2><span>By: MedHub Apparel</span></div>
+          <div class="labelsBar"><span>Apparel</span><span>Sizes: S–XL</span></div>
+          <div class="courseInfo">
+            <div class="courseDuration"><img src="images/tutorial.png" alt=""><span>Cotton Blend</span></div>
+            <div class="coursePricing"><span>Price</span><p>15 JD</p></div>
+          </div>
+          <button class="buyButton">Buy now</button>
+        </article>
+
+        <article class="card">
+          <div class="cardImgs">
+            <img class="teacherImg" src="images/product4.png" alt="Diagnostic Kit">
+            <button class="saveButton" aria-label="Save Diagnostic Kit"><img src="images/shopping-cart.png" alt=""></button>
+          </div>
+          <div class="teacherInfo"><h2>Diagnostic Kit</h2><span>By: MedGear</span></div>
+          <div class="labelsBar"><span>Medical Equipment</span><span>New</span></div>
+          <div class="courseInfo">
+            <div class="courseDuration"><img src="images/tutorial.png" alt=""><span>All-in-one</span></div>
+            <div class="coursePricing"><span>Price</span><p>55 JD</p></div>
+          </div>
+          <button class="buyButton">Buy now</button>
+        </article>
+      </div>
+
+      <div class="viewAll">
+        <a href="#">View all items <img src="images/right-arrow.png" width="20" alt=""></a>
+      </div>
+    </section>
+
+    <section class="logo-carousel">
+      <p class="logo-carousel-label">Trusted by students at</p>
+      <div class="logo-track-wrapper">
+        <div class="logo-track">
+          <img src="images/albalqa.png" alt="Al-Balqa Applied University" class="logo-item">
+          <img src="images/yarmouk.png" alt="Yarmouk University" class="logo-item">
+          <img src="images/mutah.png" alt="Mutah University" class="logo-item">
+          <img src="images/hashemite.png" alt="The Hashemite University" class="logo-item">
+          <img src="images/just.png" alt="JUST" class="logo-item">
+          <img src="images/ju.png" alt="University of Jordan" class="logo-item">
+
+          <img src="images/albalqa.png" alt="" class="logo-item">
+          <img src="images/yarmouk.png" alt="" class="logo-item">
+          <img src="images/mutah.png" alt="" class="logo-item">
+          <img src="images/hashemite.png" alt="" class="logo-item">
+          <img src="images/just.png" alt="" class="logo-item">
+          <img src="images/ju.png" alt="" class="logo-item">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <p>Coming soon!</p>
+  </footer>
+
+  <script>
+    const menuToggle = document.querySelector(".menuToggle");
+    const navLinks = document.querySelector(".navLinks");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("active");
+
+      menuToggle.classList.toggle("active", isOpen);
+      menuToggle.setAttribute("aria-expanded", isOpen);
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+    });
+
+    document.querySelectorAll(".navLinks a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        menuToggle.classList.remove("active");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+      });
+    });
+  </script>
+</body>
+</html>
